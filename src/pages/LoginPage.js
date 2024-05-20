@@ -1,4 +1,4 @@
-import { login } from '../../src/auth/auth.js';
+import { login } from '../services/auth.js';
 
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.querySelector('#login-form');

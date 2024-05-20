@@ -1,4 +1,4 @@
-import fetchFromApi from '../api/fetchAPI.js';
+import fetchFromApi from './fetchAPI.js';
 
 async function login(username, password) {
   console.log('login');

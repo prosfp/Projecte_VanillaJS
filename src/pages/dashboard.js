@@ -1,7 +1,7 @@
 import { isAuthenticated } from '../auth';
-import fetchFromApi from '../api';
+import fetchFromApi from '../services';
 
-window.onload = async function() {
+window.onload = async function () {
   if (!isAuthenticated()) {
     window.location.href = '/login.html';
     return;
