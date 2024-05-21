@@ -8,6 +8,7 @@ import { renderTodoPage } from './pages/TodoPage';
 import { renderLoginPage } from './pages/LoginPage';
 import { renderAdminPage } from './pages/AdminPage';
 import { renderDashboardPage } from './pages/DashboardPage';
+import { isAuthenticated } from './services/auth';
 
 // Main application logic
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const path = window.location.pathname;
 
   // Render the navbar on every page
-  renderNavbar();
+  renderNavbar(isAuthenticated(), false);
 
   // Check the current page and render the appropriate content
   if (path === '/index.html' || path === '/') {

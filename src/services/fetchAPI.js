@@ -1,5 +1,7 @@
+import axios from 'axios';
+
 async function fetchFromApi(endpoint, options = {}) {
-  const url = `http://localhost:3001/${endpoint}`;
+  const url = `https://6644bc5eb8925626f88fb873.mockapi.io/api/v1/${endpoint}`;
 
   const defaultHeaders = {
     'Content-Type': 'application/json',
@@ -7,21 +9,21 @@ async function fetchFromApi(endpoint, options = {}) {
 
   // Default settings if none are provided
   const settings = {
-    method: 'GET', // default method
+    method: 'get', // default method
     headers: { ...defaultHeaders, ...options.headers }, // merge default headers with options.headers
     ...options, // spread the rest of the options
   };
 
-  if (options.body) settings.body = JSON.stringify(options.body);
+  if (options.body) settings.data = options.body;
 
   try {
-    const response = await fetch(url, settings);
+    const response = await axios(url, settings);
     console.log('response', response);
-    if (!response.ok) {
+    if (response.status !== 200) {
       throw new Error('Failed to fetch data from the API');
     }
 
-    return response.json();
+    return response.data;
   } catch (error) {
     console.error('An error occurred while fetching data:', error);
     console.error('Error name:', error.name);

@@ -8,11 +8,12 @@ async function login(username, password) {
   console.log('users', users);
 
   // Find the user with the matching username
-  const user = users.find((user) => user.username === username);
+  const user = users.find((user) => user.userName === username);
 
   // If the user exists and the password is correct
   if (user && user.password === password) {
     // Store user data in localStorage
+    user.isLoggedIn = true;
     localStorage.setItem('user', JSON.stringify(user));
 
     return user;
@@ -26,7 +27,8 @@ function logout() {
 }
 
 function isAuthenticated() {
-  return localStorage.getItem('user') !== null;
+  const user = JSON.parse(localStorage.getItem('user'));
+  return user && user.isLoggedIn === true;
 }
 
 export { login, logout, isAuthenticated };

@@ -1,4 +1,4 @@
-export function renderNavbar(user = { isLoggedIn: false, isAdmin: false }) {
+export function renderNavbar(isLoggedIn = false, isAdmin = false) {
   const navbar = document.createElement('nav');
   // This is a way to keep my navbar fixed at the top of the page
   navbar.classList.add('fixed', 'top-0', 'w-full', 'z-50'); // Add Tailwind classes for fixed positioning
@@ -7,7 +7,7 @@ export function renderNavbar(user = { isLoggedIn: false, isAdmin: false }) {
     <li><a href="index.html" class="text-blue-500 font-bold hover:text-blue-700">Home</a></li>
   `;
 
-  if (user.isLoggedIn) {
+  if (isLoggedIn) {
     links += `
       <li><a href="logout.html" class="btn btn-primary bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Logout</a></li>
     `;
@@ -17,7 +17,7 @@ export function renderNavbar(user = { isLoggedIn: false, isAdmin: false }) {
     `;
   }
 
-  if (user.isAdmin) {
+  if (isAdmin) {
     links += `
       <li><a href="admin.html" class="btn btn-primary bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Admin</a></li>
     `;
