@@ -1,9 +1,11 @@
 import fetchFromApi from './fetchAPI.js';
 
 async function login(username, password) {
-  console.log('login');
+  console.log('Login of user', username);
   // Fetch all users
   const users = await fetchFromApi('users');
+
+  console.log('users', users);
 
   // Find the user with the matching username
   const user = users.find((user) => user.username === username);

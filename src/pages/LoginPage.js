@@ -1,8 +1,14 @@
 import { login } from '../services/auth.js';
 
-document.addEventListener('DOMContentLoaded', function () {
+export function renderLoginPage() {
+  console.log('renderLoginPage function called');
   const form = document.querySelector('#login-form');
   const errorMessage = document.querySelector('#error-message');
+
+  if (!form) {
+    console.error('Login form not found');
+    return;
+  }
 
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -12,12 +18,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     try {
       console.log('Form submitted');
-      await login(username, password);
-      window.location.href = '../../public/dashboard.html';
+      const user = await login(username, password);
+
+      if (user.isAdmin) {
+        window.location.href = '/admin.html';
+      } else {
+        window.location.href = '/dashboard.html';
+      }
     } catch (error) {
-      console.error(error);
-      errorMessage.textContent = 'Login failed. Please try again.';
       errorMessage.style.display = 'block';
+      console.error(error);
     }
   });
-});
+}

@@ -1,5 +1,5 @@
 async function fetchFromApi(endpoint, options = {}) {
-  const url = `https://663b84c1fee6744a6ea1ef89.mockapi.io/api/prova/${endpoint}`;
+  const url = `http://localhost:3001/${endpoint}`;
 
   const defaultHeaders = {
     'Content-Type': 'application/json',
@@ -14,13 +14,19 @@ async function fetchFromApi(endpoint, options = {}) {
 
   if (options.body) settings.body = JSON.stringify(options.body);
 
-  const response = await fetch(url, settings);
+  try {
+    const response = await fetch(url, settings);
+    console.log('response', response);
+    if (!response.ok) {
+      throw new Error('Failed to fetch data from the API');
+    }
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    return response.json();
+  } catch (error) {
+    console.error('An error occurred while fetching data:', error);
+    console.error('Error name:', error.name);
+    throw error;
   }
-
-  return response.json();
 }
 
 export default fetchFromApi;
