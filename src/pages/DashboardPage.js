@@ -2,7 +2,7 @@
 
 import { renderTodoList } from '../components/TodoList';
 import { deleteTask } from '../services/tasks';
-import { displayErrorMessage } from '../components/errorMessage';
+//import { displayErrorMessage } from '../components/errorMessage';
 import { updateLocalStorage } from '../utils/helpers';
 
 export async function renderDashboardPage() {
