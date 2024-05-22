@@ -4,18 +4,6 @@
 // We'll use the API.js file to make requests to the server. Here
 // we will just implement the general CRUD operations for users.
 
-// Get all users
-
-// Get a single user by ID
-
-// Create a new user
-
-// Update a user
-
-// Delete a user
-
-// Path: src/api/user.js
-
 import fetchFromApi from './fetchAPI';
 
 // GET ALL USERS

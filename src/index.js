@@ -4,7 +4,6 @@ import './styles/global.css';
 
 // Import main page components based on the current page
 import { renderNavbar } from './components/Navbar';
-import { renderTodoPage } from './pages/TodoPage';
 import { renderLoginPage } from './pages/LoginPage';
 import { renderAdminPage } from './pages/AdminPage';
 import { renderDashboardPage } from './pages/DashboardPage';
@@ -20,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Check the current page and render the appropriate content
   if (path === '/index.html' || path === '/') {
-    renderTodoPage();
+    console.log('Landing page');
   } else if (path === '/login.html') {
     renderLoginPage();
   } else if (path === '/admin.html') {

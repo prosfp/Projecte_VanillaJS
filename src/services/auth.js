@@ -12,8 +12,10 @@ async function login(username, password) {
 
   // If the user exists and the password is correct
   if (user && user.password === password) {
+    console.log(user);
     // Store user data in localStorage
     user.isLoggedIn = true;
+    // Add user to localStorage
     localStorage.setItem('user', JSON.stringify(user));
 
     return user;

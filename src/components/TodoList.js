@@ -1,17 +1,15 @@
-// Import styles specific to this component
+// src/components/TodoList.js
+
 import { renderTodoItem } from './TodoItem';
 
-// Function to render the TodoList
-export function renderTodoList() {
-  const todoList = document.createElement('ul');
-  todoList.id = 'todo-list';
+export function renderTodoList(todos, ulId, onEdit, onDelete) {
+  const todoListElement = document.querySelector(`#${ulId}`);
+  todoListElement.innerHTML = ''; // Clear the list before rendering
 
-  // Example of adding a Todo item
-  const todoItems = ['Item 1', 'Item 2', 'Item 3'];
-  todoItems.forEach((item) => {
-    const todoElement = renderTodoItem(item);
-    todoList.appendChild(todoElement);
+  todos.forEach((todo) => {
+    const todoItemElement = renderTodoItem(todo, onEdit, onDelete);
+    todoListElement.appendChild(todoItemElement);
   });
 
-  document.getElementById('app').appendChild(todoList);
+  return todoListElement;
 }
