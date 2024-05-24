@@ -41,11 +41,6 @@ module.exports = {
       chunks: ['main'],
     }),
     new HtmlWebpackPlugin({
-      filename: 'admin.html',
-      template: './public/admin.html',
-      chunks: ['main'],
-    }),
-    new HtmlWebpackPlugin({
       filename: 'dashboard.html',
       template: './public/dashboard.html',
       chunks: ['main'],

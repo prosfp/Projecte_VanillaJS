@@ -6,7 +6,6 @@ import 'flowbite';
 // Import main page components based on the current page
 import { renderNavbar } from './components/Navbar';
 import { renderLoginPage } from './pages/LoginPage';
-import { renderAdminPage } from './pages/AdminPage';
 import { renderDashboardPage } from './pages/DashboardPage';
 import { isAuthenticated } from './services/auth';
 
@@ -23,8 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Landing page');
   } else if (path === '/login.html') {
     renderLoginPage();
-  } else if (path === '/admin.html') {
-    renderAdminPage();
   } else if (path === '/dashboard.html') {
     renderDashboardPage();
   }
