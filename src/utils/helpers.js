@@ -1,7 +1,13 @@
 // Helper functions
 
+// Get the user from local storage
+
+export function getUserFromLocalStorage() {
+  return JSON.parse(localStorage.getItem('user'));
+}
+
 // Update local storage with new user todos or tasks
-export function updateLocalStorage(userId, todos) {
+export function saveUserToLocalStorage(userId, todos) {
   console.log('Updating local storage', userId, todos);
   const user = JSON.parse(localStorage.getItem('user'));
 

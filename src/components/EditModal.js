@@ -7,10 +7,7 @@
 // En aquest cas, ja que hem agafat el modal de Flowbite, podem copiar el codi html del modal i
 // modifcar només les parts que necessitem.
 
-import { updateTask } from '../services/tasks';
-import { updateLocalTask } from '../utils/helpers';
-
-export async function renderEditModal(todo, render) {
+export async function renderEditModal(todo, onSave) {
   // Create modal elements using template literals
   const modalHtml = `
     <div id="default-modal" class="fixed inset-0 flex items-center justify-center z-50 overflow-y-auto bg-black bg-opacity-50">
@@ -48,13 +45,10 @@ export async function renderEditModal(todo, render) {
     </div>
   `;
 
-  // Insert the modal HTML into the document
   const modalContainer = document.createElement('div');
   modalContainer.innerHTML = modalHtml;
-  console.dir(modalContainer);
   document.body.appendChild(modalContainer);
 
-  // Add event listeners
   const closeButton = modalContainer.querySelector('[data-modal-hide]');
   const saveButton = modalContainer.querySelector('#save-changes');
   const titleInput = modalContainer.querySelector('#title');
@@ -65,26 +59,18 @@ export async function renderEditModal(todo, render) {
     modalContainer.remove();
   });
 
-  saveButton.addEventListener('click', async () => {
-    try {
-      const { userId, id } = todo;
-      const updatedTodo = {
-        ...todo,
-        title: titleInput.value,
-        dueDate: dueDateInput.value,
-        status: statusInput.checked,
-      };
+  saveButton.addEventListener('click', () => {
+    // We create an updatedTodo object with the input values
+    const updatedTodo = {
+      ...todo,
+      title: titleInput.value,
+      dueDate: dueDateInput.value,
+      status: statusInput.checked,
+    };
 
-      await Promise.all([
-        updateTask(userId, id, updatedTodo),
-        updateLocalTask(todo.id, updatedTodo),
-      ]);
-      modalContainer.remove();
-      render();
-    } catch (error) {
-      console.error(`An error occurred while saving changes: ${error.message}`);
-      // Display an error message to the user if needed
-    }
+    // Now it's time to call it with the updated todo
+    onSave(updatedTodo);
+    modalContainer.remove();
   });
 
   return modalContainer;

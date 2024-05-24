@@ -16,13 +16,15 @@ async function fetchFromApi(endpoint, options = {}) {
 
   if (options.body) settings.data = options.body;
 
+  // All returning codes from the API between 200 and 299 are considered successful!
   try {
     const response = await axios(url, settings);
     console.log('response', response);
-    if (response.status !== 200) {
-      throw new Error('Failed to fetch data from the API');
+    if (response.status < 200 || response.status >= 300) {
+      throw new Error(
+        `Failed to fetch data from the API, status code: ${response.status}`
+      );
     }
-
     return response.data;
   } catch (error) {
     console.error('An error occurred while fetching data:', error);

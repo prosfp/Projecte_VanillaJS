@@ -1,4 +1,14 @@
 export function renderNavbar(isLoggedIn = false, isAdmin = false) {
+  // Add event listener to the document body and listen for click events on any element with the id "logoutButton"
+  // Seria millor alguna altra aproximació, però tenim problemes afegint event listeners a elements que encara no existeixen
+  // Així que aquesta és una solució ràpida i bruta pel logout!
+  document.body.addEventListener('click', function (event) {
+    if (event.target && event.target.id === 'logoutButton') {
+      console.log('Logging out...');
+      localStorage.removeItem('user');
+    }
+  });
+
   if (!document.querySelector('.navbar')) {
     const navbar = document.createElement('nav');
     // This is a way to keep my navbar fixed at the top of the page
@@ -11,7 +21,7 @@ export function renderNavbar(isLoggedIn = false, isAdmin = false) {
     if (isLoggedIn) {
       links += `
     <li><a href="dashboard.html" class="text-blue-500 font-bold hover:text-blue-700">Dashboard</a></li>
-    <li><a id="logoutButton" href="logout.html" class="btn btn-primary bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Logout</a></li>  `;
+    <li><a id="logoutButton" href="index.html" class="btn btn-primary bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Logout</a></li>  `;
     } else {
       links += `
       <li><a href="login.html" class="btn btn-primary bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Login</a></li>
@@ -30,7 +40,6 @@ export function renderNavbar(isLoggedIn = false, isAdmin = false) {
     </ul>
   `;
 
-    navbar.log;
     document.body.prepend(navbar);
   }
 }

@@ -1,64 +1,81 @@
 // src/pages/Dashboard.js
 
+import { renderAddTaskModal } from '../components/AddModal';
 import { renderEditModal } from '../components/EditModal';
 import { renderTodoList } from '../components/TodoList';
-import { deleteTask, getAllTasks } from '../services/tasks';
-//import { displayErrorMessage } from '../components/errorMessage';
-import { updateLocalStorage } from '../utils/helpers';
+import {
+  getAllTasks,
+  deleteTask,
+  updateTask,
+  createTask,
+} from '../services/tasks';
+import {
+  getUserFromLocalStorage,
+  saveUserToLocalStorage,
+} from '../utils/helpers';
 
 export async function renderDashboardPage() {
-  // Retrieve the user object from localStorage
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = getUserFromLocalStorage();
 
-  // Ensure the user object is present
   if (!user) {
     console.error('User not found in localStorage');
     return;
   }
 
-  // Extract the userId from the user object
   const userId = user.id;
-
-  // Create a welcome message
   const welcomeMessage = `Welcome, ${user.firstName}!`;
 
-  // Insert the welcome message into your dashboard's HTML
-  const welcomeElement = document.getElementById('welcome'); // replace 'welcome' with the actual id of your welcome message element
+  const welcomeElement = document.getElementById('welcome');
   welcomeElement.textContent = welcomeMessage;
 
-  // Render the todo lists through the renderTodoList function / component
   const todoListContainer = document.getElementById('taskLists');
 
-  // Function to handle the editing of a task. This will be passed to the renderTodoList function
+  // Function to handle the editing of a task.
+  // The callback function will be called when the user clicks the save button in the modal
   async function handleEdit(todo) {
-    // Edit means next steps:
-    // 1. Open the modal
-    // 2. Populate the modal with the task data
-    // 3. Update the task data
-    // 4. Save the updated task data
-    // 5. Close the modal
-    // 6. Re-render the todo list
-    // 7. Update the DB through API calls
-    // 8. Update the local storage
-
-    // Use the modal to edit the task
-    console.log('editing!', todo);
-    renderEditModal(todo, render);
-    render();
+    try {
+      renderEditModal(todo, async (updatedTodo) => {
+        // 1st -> Update the task in the database
+        await updateTask(userId, todo.id, updatedTodo);
+        // 2nd -> We obtain again the list of todos in the database
+        const todos = await getAllTasks(userId);
+        // 3rd -> We update the local storage with the new list of todos
+        saveUserToLocalStorage(userId, todos);
+        // 4th -> Now yes, we can render the updated list of todos
+        render();
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  // Function to handle the deletion of a task. This will be passed to the renderTodoList function
+  // Function to handle the deletion of a task
   async function handleDelete(todoId) {
     try {
-      console.log('Deleting task', todoId);
-
+      // 1st -> We delete the task in the database
       await deleteTask(userId, todoId);
+      // 2nd -> We obtain again the list of todos in the database
+      const todos = await getAllTasks(userId);
+      // 3rd -> We update the local storage with the new list of todos
+      saveUserToLocalStorage(userId, todos);
+      // 4th -> Now yes, we can render the updated list of todos
+      render();
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-      // Retrieve the todo lists from the user object
-      let todos = user.userTasks;
-      // we filter out the deleted task from the todos array
-      todos = todos.filter((todo) => todo.id !== todoId);
-      updateLocalStorage(userId, todos);
+  // Function to handle the addition of a task
+  async function handleAddTask(newTodo) {
+    try {
+      // 1st -> We create the task in the database
+      await createTask(userId, newTodo);
+      // 2nd -> We obtain again the list of todos in the database
+      console.log('getting all tasks');
+      const todos = await getAllTasks(userId);
+      // 3rd -> We update the local storage with the new list of todos
+      saveUserToLocalStorage(userId, todos);
+      // 4th -> Now yes, we can render the updated list of todos
       render();
     } catch (error) {
       console.error(error);
@@ -67,21 +84,27 @@ export async function renderDashboardPage() {
 
   // Every time the todos are updated, re-render the todo list
   async function render() {
-    // When we loggin, we alreay fetched all the user information.
-    // Now we can simply check check if there's a user with userTasks
-
-    if (!user.userTasks || user.userTasks.length === 0) {
-      console.log('No user tasks found in localStorage');
-      return;
+    try {
+      // 1st -> We obtain the list of todos in the database
+      const todos = await getAllTasks(userId);
+      // 2nd -> We update the local storage with the new list of todos
+      saveUserToLocalStorage(userId, todos);
+      // 3rd -> We render the updated list of todos
+      todoListContainer.innerHTML = '';
+      renderTodoList(todos, 'taskLists', handleEdit, handleDelete);
+    } catch (error) {
+      console.error('Error fetching tasks:', error);
     }
-
-    todoListContainer.innerHTML = '';
-
-    // At this point we must be sure that the todos in our db are updated
-    // We call the API to get the updated todos
-    const todos = await getAllTasks(userId);
-    renderTodoList(todos, 'taskLists', handleEdit, handleDelete);
   }
+
+  // In this case, the EventListener, as it is single button in the dashboard,
+  // we define it here in the DashboardPage.js
+  const addTodoButton = document.getElementById('addTodoButton');
+  // When the user clicks the button, we render the modal to add a new task and we pass
+  // the handleAddTask as a callback function to be called when the user clicks the save button in the modal
+  addTodoButton.addEventListener('click', () => {
+    renderAddTaskModal(handleAddTask);
+  });
 
   render();
 }
