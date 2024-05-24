@@ -25,7 +25,8 @@ async function login(username, password) {
 }
 
 function logout() {
-  // ...
+  // Remove user from localStorage
+  localStorage.removeItem('user');
 }
 
 function isAuthenticated() {

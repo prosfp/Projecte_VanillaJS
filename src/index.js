@@ -1,6 +1,7 @@
 // Import global styles
 import './styles/tailwind.css';
 import './styles/global.css';
+import 'flowbite';
 
 // Import main page components based on the current page
 import { renderNavbar } from './components/Navbar';

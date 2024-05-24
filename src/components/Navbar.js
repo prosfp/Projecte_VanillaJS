@@ -11,8 +11,7 @@ export function renderNavbar(isLoggedIn = false, isAdmin = false) {
     if (isLoggedIn) {
       links += `
     <li><a href="dashboard.html" class="text-blue-500 font-bold hover:text-blue-700">Dashboard</a></li>
-    <li><a href="logout.html" class="btn btn-primary bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Logout</a></li>
-  `;
+    <li><a id="logoutButton" href="logout.html" class="btn btn-primary bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Logout</a></li>  `;
     } else {
       links += `
       <li><a href="login.html" class="btn btn-primary bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Login</a></li>
@@ -31,6 +30,7 @@ export function renderNavbar(isLoggedIn = false, isAdmin = false) {
     </ul>
   `;
 
+    navbar.log;
     document.body.prepend(navbar);
   }
 }

@@ -5,6 +5,7 @@ import { renderDeleteButton } from './DeleteButton';
 
 export function renderTodoItem(todo, onEdit, onDelete) {
   const listItem = document.createElement('li');
+  listItem.id = `todo-${todo.id}`;
   listItem.classList.add(
     'flex',
     'items-center',
@@ -40,7 +41,9 @@ export function renderTodoItem(todo, onEdit, onDelete) {
   const buttonContainer = document.createElement('div');
 
   // Add the edit and delete buttons to the button container
-  // The callback function will be called when the button is clicked
+  // Here we need to pass the todo object to the callback function
+  // That's why we are using an arrow function to create a closure
+
   const editButton = renderEditButton(() => onEdit(todo));
   const deleteButton = renderDeleteButton(() => onDelete(todo.id));
 
