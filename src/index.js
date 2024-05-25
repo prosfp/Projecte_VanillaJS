@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (path === '/index.html' || path === '/') {
     console.log('Landing page');
   } else if (path === '/login.html') {
+    console.log('Login page');
     renderLoginPage();
   } else if (path === '/dashboard.html') {
     renderDashboardPage();

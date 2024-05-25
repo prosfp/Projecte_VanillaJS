@@ -1,0 +1,9 @@
+/* global.css */
+nav .active {
+  color: #1e3a8a; /* Dark blue color for active link */
+  font-weight: bold; /* Make the active link bold */
+  border-bottom: 2px solid #1e3a8a; /* Add a bottom border */
+  background-color: #ebf4ff; /* Light blue background for the active link */
+  padding: 0.5rem; /* Add some padding for better appearance */
+  border-radius: 0.25rem; /* Add slight border-radius for rounded corners */
+}
