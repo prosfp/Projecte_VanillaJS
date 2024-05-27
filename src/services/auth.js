@@ -8,7 +8,7 @@ async function login(username, password) {
   console.log('users', users);
 
   // Find the user with the matching username
-  const user = users.find((user) => user.userName === username);
+  const user = users.find((user) => user.username === username);
 
   // If the user exists and the password is correct
   if (user && user.password === password) {

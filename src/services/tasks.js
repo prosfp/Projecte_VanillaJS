@@ -5,9 +5,8 @@ import fetchFromApi from './fetchAPI';
 // GET ALL TASKS
 async function getAllTasks(userId) {
   try {
-    const response = await fetchFromApi(`users/${userId}`);
-    if (!response.status === 200) {
-      console.log('Hei!');
+    const response = await fetchFromApi(`users/${userId}/tasks`);
+    if (response.status !== 200) {
       // It can happen that the user has no tasks, in that case we return an empty array
       if (response.status === 404) {
         // No tasks found, return an empty array
@@ -15,8 +14,7 @@ async function getAllTasks(userId) {
       }
       throw new Error('Failed to fetch tasks');
     }
-    console.log(response.userTasks);
-    return response.userTasks;
+    return response;
   } catch (error) {
     console.error('Error fetching tasks:', error);
     throw error;
